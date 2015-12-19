@@ -5,7 +5,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class ParseUtils {
-	public static ParseDataModel getParsedDataModelForJabong(Document doc) {
+	public static ParseDataModel getParsedDataModelForJabong(Document doc,String url) {
 		Elements elements;
 		StringBuilder sbd = new StringBuilder();
 		ParseDataModel data = new ParseDataModel();
@@ -115,7 +115,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForKoovs(Document doc) {
+	public static ParseDataModel getParseDataModelForKoovs(Document doc,String url) {
 		Elements elements;
 		StringBuilder sbd = new StringBuilder();
 		ParseDataModel data = new ParseDataModel();
@@ -195,7 +195,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParsedDataModelForFaballey(Document doc) {
+	public static ParseDataModel getParsedDataModelForFaballey(Document doc,String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -243,7 +243,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelFor6ycollective(Document doc) {
+	public static ParseDataModel getParseDataModelFor6ycollective(Document doc,String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -282,7 +282,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForFleaffair(Document doc) {
+	public static ParseDataModel getParseDataModelForFleaffair(Document doc,String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -354,7 +354,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForThelabellife(Document doc) {
+	public static ParseDataModel getParseDataModelForThelabellife(Document doc,String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -407,7 +407,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForVajor(Document doc) {
+	public static ParseDataModel getParseDataModelForVajor(Document doc,String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -457,7 +457,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForJaypore(Document doc) {
+	public static ParseDataModel getParseDataModelForJaypore(Document doc,String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -503,7 +503,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelFor20dresses(Document doc, String url) {
+	public static ParseDataModel getParseDataModelFor20dresses(Document doc,String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -554,7 +554,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForCraftisan(Document doc) {
+	public static ParseDataModel getParseDataModelForCraftisan(Document doc,String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -628,7 +628,7 @@ public class ParseUtils {
 		}
 		return data;
 	}
-	public static ParseDataModel getParseDataModelForSesamethestylestudio(Document doc){
+	public static ParseDataModel getParseDataModelForSesamethestylestudio(Document doc,String url){
 		ParseDataModel data = new ParseDataModel();
 		Elements elements;
 		StringBuilder sbd;

@@ -14,83 +14,53 @@ public class DiskParser {
 		String html = htmlParseData.getHtml();
 		String url = page.getWebURL().getURL();
 		String path = page.getWebURL().getPath();
-		String subUrl = path.substring(1);
-
+		String subUrl=url.substring(url.lastIndexOf("/")+1);
 		System.out.println(url);
 		System.out.println(path);
 		System.out.println(subUrl);
 		Document doc = Jsoup.parse(html);
-		if (url.contains("www.koovs.com") && !FilterUtils.urlFilterForKoovs(doc, url)) {
-			return;
-		}
-		if (url.contains("www.jabong.com") && !FilterUtils.urlFilterForJabong(doc, url)) {
-			return;
-		}
-		if (url.contains("www.faballey.com") && !FilterUtils.urlFilterForFaballey(doc, url)) {
-			return;
-		}
-		if (url.contains("www.6ycollective.com") && !FilterUtils.urlFilterFor6ycollective(doc, url)) {
-			return;
-		}
-		if (url.contains("www.fleaffair.com") && !FilterUtils.urlFilterForFleaffair(doc, url)) {
-			return;
-		}
-		if (url.contains("www.thelabellife.com") && !FilterUtils.urlFilterForTheLabelLife(doc, url)) {
-			return;
-		}
-		if (url.contains("www.vajor.com") && !FilterUtils.urlFilterForVajor(doc, url)) {
-			return;
-		}
-		if (url.contains("www.jaypore.com") && !FilterUtils.urlFilterForJaypore(doc, url)) {
-			return;
-		}
-		if (url.contains("www.20dresses.com") && !FilterUtils.urlFilterFor20dresses(doc, url)) {
-			return;
-		}
-		if (url.contains("craftisan.in") && !FilterUtils.urlFilterForCraftisan(doc, url)) {
-			return;
-		}
-		if (url.contains("sesamethestylestudio.com") && !FilterUtils.urlFilterForSesamethestylestudio(doc, url)) {
-			return;
-		}
-
 		ParseDataModel data = null;
-		
-		if (url.contains("www.koovs.com")) {
-			data = ParseUtils.getParseDataModelForKoovs(doc);
+		switch (Config.SITE.val()) {
+		case "koovs":
+			data = FilterUtils.urlFilterForKoovs(doc, url) ? ParseUtils.getParseDataModelForKoovs(doc,url) : null;
+			break;
+		case "jabong":
+			data = FilterUtils.urlFilterForJabong(doc, url) ? ParseUtils.getParsedDataModelForJabong(doc,url) : null;
+			break;
+		case "faballey":
+			data = FilterUtils.urlFilterForFaballey(doc, url) ? ParseUtils.getParsedDataModelForFaballey(doc,url) : null;
+			break;
+		case "6ycollective":
+			data = FilterUtils.urlFilterFor6ycollective(doc, url) ? ParseUtils.getParseDataModelFor6ycollective(doc,url)
+					: null;
+			break;
+		case "fleaffair":
+			data = FilterUtils.urlFilterForFleaffair(doc, url) ? ParseUtils.getParseDataModelForFleaffair(doc,url) : null;
+			break;
+		case "thelabellife":
+			data = FilterUtils.urlFilterForTheLabelLife(doc, url) ? ParseUtils.getParseDataModelForThelabellife(doc,url)
+					: null;
+			break;
+		case "vajor":
+			data = FilterUtils.urlFilterForVajor(doc, url) ? ParseUtils.getParseDataModelForVajor(doc,url) : null;
+			break;
+		case "20dresses":
+			data = FilterUtils.urlFilterFor20dresses(doc, url) ? ParseUtils.getParseDataModelFor20dresses(doc, url)
+					: null;
+			break;
+		case "craftisan":
+			data = FilterUtils.urlFilterForCraftisan(doc, url) ? ParseUtils.getParseDataModelForCraftisan(doc,url) : null;
+			break;
+		case "sesamethestylestudio":
+			data = FilterUtils.urlFilterForSesamethestylestudio(doc, url)
+					? ParseUtils.getParseDataModelForSesamethestylestudio(doc,url) : null;
+			break;
+		case "jaypore":
+			data = FilterUtils.urlFilterForJaypore(doc, url) ? ParseUtils.getParseDataModelForJaypore(doc,url) : null;
+			break;
+		default:
+			break;
 		}
-		if (url.contains("www.jabong.com")) {
-			data = ParseUtils.getParsedDataModelForJabong(doc);
-		}
-		if (url.contains("www.faballey.com")) {
-			data = ParseUtils.getParsedDataModelForFaballey(doc);
-		}
-		if (url.contains("www.6ycollective.com")) {
-			data = ParseUtils.getParseDataModelFor6ycollective(doc);
-		}
-		if (url.contains("www.fleaffair.com")) {
-			data = ParseUtils.getParseDataModelForFleaffair(doc);
-		}
-		if (url.contains("www.thelabellife.com")) {
-			data = ParseUtils.getParseDataModelForThelabellife(doc);
-		}
-		if (url.contains("www.vajor.com")) {
-			data = ParseUtils.getParseDataModelForVajor(doc);
-		}
-		if (url.contains("www.jaypore.com")) {
-			data = ParseUtils.getParseDataModelForJaypore(doc);
-		}
-		if (url.contains("www.20dresses.com")) {
-			data = ParseUtils.getParseDataModelFor20dresses(doc, url);
-		}
-		if (url.contains("craftisan.in")) {
-			data = ParseUtils.getParseDataModelForCraftisan(doc);
-		}
-		if (url.contains("sesamethestylestudio.com")) {
-			data = ParseUtils.getParseDataModelForSesamethestylestudio(doc);
-			subUrl=url.substring(url.lastIndexOf("/")+1);
-		}
-
 		if (data != null) {
 			data.setProductUrl(url);
 			InsertScrapeData.save(data, subUrl);

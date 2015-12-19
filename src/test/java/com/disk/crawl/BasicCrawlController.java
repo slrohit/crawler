@@ -27,7 +27,6 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
  * @author Yasser Ganjisaffar
  */
 public class BasicCrawlController {
-	
 
 	public static void main(String[] args) throws Exception {
 		/*
@@ -112,8 +111,7 @@ public class BasicCrawlController {
 		 * which are found in these pages
 		 */
 		
-			controller.addSeed("http://www.sesamethestylestudio.com/");
-		
+		controller.addSeed(Config.SEED.val());
 
 		/*
 		 * Start the crawl. This is a blocking operation, meaning that your code

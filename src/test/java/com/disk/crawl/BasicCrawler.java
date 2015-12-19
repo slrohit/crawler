@@ -44,7 +44,7 @@ public class BasicCrawler extends WebCrawler {
       return false;
     }
     // Only accept the url if it is in the "www.ics.uci.edu" domain and protocol is "http".
-    return href.contains("sesamethestylestudio.com");
+    return href.startsWith(Config.URL_PREFIX.val());
   }
 
   /**
