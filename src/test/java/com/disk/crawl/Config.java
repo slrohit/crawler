@@ -4,6 +4,7 @@ public enum Config {
 	SEED("http://www.vajor.com/"),
 	SITE("vajor"),
 	URL_PREFIX("http://www.vajor.com/");
+	FOLDER("/home/rohit/vajor");
 	private String val;
 
 	private Config(String s) {
