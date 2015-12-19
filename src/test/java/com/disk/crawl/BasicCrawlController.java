@@ -40,7 +40,7 @@ public class BasicCrawlController {
 		 * crawlStorageFolder is a folder where intermediate crawl data is
 		 * stored.
 		 */
-		String crawlStorageFolder = "/home/rohit/20dresses";
+		String crawlStorageFolder = "~/"+Config.SITE.val();
 
 		/*
 		 * numberOfCrawlers shows the number of concurrent threads that should
