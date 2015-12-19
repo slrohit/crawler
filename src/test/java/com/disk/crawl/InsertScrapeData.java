@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.zip.CRC32;
 
 import com.mysql.jdbc.Connection;
 
@@ -19,11 +18,11 @@ public class InsertScrapeData {
 	 * Config.dbpassword;
 	 */
 
-	public static void save(ParseDataModel data, String url) {
+	public static void save(ParseDataModel data) {
 
 		try {
 
-			insertRecordIntoTable(data, url);
+			insertRecordIntoTable(data);
 
 		} catch (SQLException e) {
 
@@ -33,20 +32,22 @@ public class InsertScrapeData {
 
 	}
 
-	private static void insertRecordIntoTable(ParseDataModel data, String url) throws SQLException {
+	private static void insertRecordIntoTable(ParseDataModel data) throws SQLException {
 
 		java.sql.Connection dbConnection = null;
 		java.sql.PreparedStatement preparedStatement = null;
 		StringBuilder sbd = new StringBuilder();
 		sbd.append(
-				"REPLACE INTO scrape_data2(id,product_name, product_url, sku, mrp, sp, description, detail, sizes, material, care_instruction, img_urls, retailer, brand, color_text, color_code, bread_crumb, category, sub_category, fabric, pattern_or_detailing, delivery, return_policy) VALUES");
-		sbd.append("(md5(?),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				"INSERT INTO crawl_data(id,product_name, product_url, sku, mrp, sp, description, detail, sizes, material, care_instruction, img_urls, retailer, brand, color_text, color_code, bread_crumb, category, sub_category, fabric, pattern_or_detailing, delivery, return_policy, page_hash) VALUES");
+		sbd.append("(md5(?),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,md5(?))");
+		sbd.append("ON DUPLICATE KEY UPDATE ");
+		sbd.append("product_name=VALUES(product_name), product_url=VALUES(product_url), sku=VALUES(sku), mrp=VALUES(mrp), sp=VALUES(sp), description=VALUES(description), detail=VALUES(detail), sizes=VALUES(sizes), material=VALUES(material), care_instruction=VALUES(care_instruction), img_urls=VALUES(img_urls), retailer=VALUES(retailer), brand=VALUES(brand), color_text=VALUES(color_text), color_code=VALUES(color_code), bread_crumb=VALUES(bread_crumb), category=VALUES(category), sub_category=VALUES(sub_category), fabric=VALUES(fabric), pattern_or_detailing=VALUES(pattern_or_detailing), delivery=VALUES(delivery), return_policy=VALUES(return_policy)");
 		String insertTableSQL = sbd.toString();
 
 		try {
 			dbConnection = getDBConnection();
 			preparedStatement = dbConnection.prepareStatement(insertTableSQL);
-			preparedStatement.setString(1,url);
+			preparedStatement.setString(1,data.getRelativeUrl());
 			preparedStatement.setString(2, data.getProductName());
 			preparedStatement.setString(3, data.getProductUrl());
 			preparedStatement.setString(4, data.getSku());
@@ -69,6 +70,7 @@ public class InsertScrapeData {
 			preparedStatement.setString(21, data.getPatternOrDetailing());
 			preparedStatement.setString(22, data.getDelivery());
 			preparedStatement.setString(23, data.getReturnPolicy());
+			preparedStatement.setString(24, data.getProductName());
 
 			// execute insert SQL stetement
 			preparedStatement.executeUpdate();

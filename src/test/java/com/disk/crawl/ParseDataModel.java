@@ -1,7 +1,7 @@
 package com.disk.crawl;
 
 public class ParseDataModel {
-
+	private String relativeUrl;
 	private String productName;
 	private String productUrl;
 	private String sku;
@@ -27,6 +27,7 @@ public class ParseDataModel {
 	private String sizeChart;
 
 	public ParseDataModel() {
+		relativeUrl = "";
 		productName = "";
 		productUrl = "";
 		sku = "";
@@ -49,6 +50,14 @@ public class ParseDataModel {
 		patternOrDetailing = "";
 		delivery = "";
 		returnPolicy = "";
+	}
+
+	public String getRelativeUrl() {
+		return relativeUrl;
+	}
+
+	public void setRelativeUrl(String relativeUrl) {
+		this.relativeUrl = relativeUrl;
 	}
 
 	public String getProductName() {

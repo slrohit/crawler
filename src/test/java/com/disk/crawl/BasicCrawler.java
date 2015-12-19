@@ -19,6 +19,9 @@ package com.disk.crawl;
 
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -29,33 +32,39 @@ import edu.uci.ics.crawler4j.url.WebURL;
  */
 public class BasicCrawler extends WebCrawler {
 
-  private static final Pattern IMAGE_EXTENSIONS = Pattern.compile(".*(\\.(css|js|gif|jpg"
-          + "|png|mp3|mp3|zip|gz))$");;
+	private static final Pattern IMAGE_EXTENSIONS = Pattern
+			.compile(".*(\\.(css|js|gif|jpg" + "|png|mp3|mp3|zip|gz))$");;
 
-  /**
-   * You should implement this function to specify whether the given url
-   * should be crawled or not (based on your crawling logic).
-   */
-  @Override
-  public boolean shouldVisit(Page referringPage, WebURL url) {
-    String href = url.getURL().toLowerCase();
-    // Ignore the url if it has an extension that matches our defined set of image extensions.
-    if (IMAGE_EXTENSIONS.matcher(href).matches()) {
-      return false;
-    }
-    // Only accept the url if it is in the "www.ics.uci.edu" domain and protocol is "http".
-    return href.startsWith(Config.URL_PREFIX.val());
-  }
+	/**
+	 * You should implement this function to specify whether the given url
+	 * should be crawled or not (based on your crawling logic).
+	 */
+	@Override
+	public boolean shouldVisit(Page referringPage, WebURL url) {
+		String href = url.getURL().toLowerCase();
+		// Ignore the url if it has an extension that matches our defined set of
+		// image extensions.
+		if (IMAGE_EXTENSIONS.matcher(href).matches()) {
+			return false;
+		}
+		// Only accept the url if it is in the "www.ics.uci.edu" domain and
+		// protocol is "http".
+		return href.startsWith(Config.URL_PREFIX.val());
+	}
 
-  /**
-   * This function is called when a page is fetched and ready to be processed
-   * by your program.
-   */
-  @Override
-  public void visit(Page page) {
-    if (page.getParseData() instanceof HtmlParseData) {
-  
-      DiskParser.parse(page);
-    }
-  }
+	/**
+	 * This function is called when a page is fetched and ready to be processed
+	 * by your program.
+	 */
+	@Override
+	public void visit(Page page) {
+		if (page.getParseData() instanceof HtmlParseData) {
+			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
+			String html = htmlParseData.getHtml();
+			String url = page.getWebURL().getURL();
+			System.out.println(url);
+			Document doc = Jsoup.parse(html);
+			DiskParser.parse(doc, url);
+		}
+	}
 }
