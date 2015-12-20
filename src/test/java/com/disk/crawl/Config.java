@@ -3,7 +3,7 @@ package com.disk.crawl;
 public enum Config {
 	SEED("http://www.vajor.com/"),
 	SITE("vajor"),
-	URL_PREFIX("http://www.vajor.com/");
+	URL_PREFIX("http://www.vajor.com/"),
 	FOLDER("/home/rohit/vajor");
 	private String val;
 
