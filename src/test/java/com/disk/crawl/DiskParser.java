@@ -49,6 +49,9 @@ public class DiskParser {
 		case "jaypore":
 			data = FilterUtils.urlFilterForJaypore(doc, url) ? ParseUtils.getParseDataModelForJaypore(doc, url) : null;
 			break;
+		case "mirraw":
+			data = FilterUtils.urlFilterForMirraw(doc, url) ? ParseUtils.getParseDataModelForMirraw(doc, url) : null;
+			break;
 		default:
 			break;
 		}

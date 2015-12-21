@@ -136,5 +136,9 @@ public class FilterUtils {
 			return false;
 		return true;
 	}
-	
+	public static boolean urlFilterForMirraw(Document doc, String url) {
+		if (doc.select(".right_description_wrapper").isEmpty())
+			return false;
+		return true;
+	}
 }

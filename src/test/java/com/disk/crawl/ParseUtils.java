@@ -709,4 +709,89 @@ public class ParseUtils {
 		}
 		return data;
 	}
+	public static ParseDataModel getParseDataModelForMirraw(Document doc, String url) {
+		ParseDataModel data = new ParseDataModel();
+		data.setProductName(doc.select(".heading .design_title").text());
+		data.setMrp(doc.select(".discount_old_price .old_price_label").text().replaceAll("[^\\d.]", ""));
+		data.setSp(doc.select(".discount_old_price h3.floatl").text().replaceAll("[^\\d.]", ""));
+		Elements elements = doc.select("#spec-1 ul.product_specif_detail li");
+		for (Element element : elements) {
+			String key = element.select("label").text();
+			String val = element.select("span").text();
+			switch (key) {
+			case "Product ID":
+				data.setSku(val);
+				break;
+			case "Type":
+				data.setSubCategory(val);
+				break;
+			case "Fabric of saree :":
+			case "Blouse fabric :":
+			case "Lehenga fabric :":
+			case "Fabric :":
+			case "Kameez fabric :":
+			case "Base material :":
+			case "Material bag :":
+				data.setMaterial(val);
+				break;
+			case "Returns":
+				data.setReturnPolicy(val);
+				break;
+			case "Shipping":
+				data.setDelivery(val);
+				break;
+			case "Saree color :":
+			case "color :":
+			case "Kameez color :":
+			case "Lehenga color :":
+			case "Dupatta color :":
+			case "Blouse color :":
+			case "Bottom color :":
+				data.setColorText(val);
+				break;
+			case "Look :":
+			case "Work :":
+			case "Stitching :":
+			case "Lehenga style :":
+			case "Pattern :":
+				val = !data.getPatternOrDetailing().isEmpty() ? val + ", " + data.getPatternOrDetailing() : val;
+				data.setPatternOrDetailing(val);
+				break;
+			case "care":
+				data.setCareInstruction(val);
+			default:
+				break;
+			}
+		}
+
+		elements = doc.select("#fancybox-thumbs li img");
+		if (!elements.isEmpty()) {
+			StringBuilder sbd = new StringBuilder("[");
+			String pref = "";
+			for (Element element : elements) {
+				sbd.append(pref);
+				pref = ",";
+				sbd.append(element.attr("src"));
+			}
+			sbd.append("]");
+			data.setImgUrls(sbd.toString());
+		} else {
+			data.setImgUrls("[" + doc.select(".large_img.floatl img").attr("src") + "]");
+		}
+		elements = doc.select(".right_description_wrapper li");
+		if (!elements.isEmpty()) {
+			StringBuilder sbd = new StringBuilder("[");
+			String pref = "";
+			for (Element element : elements) {
+				if (element.select("del").isEmpty()) {
+					sbd.append(pref);
+					pref = ",";
+					sbd.append(element.text());
+				}
+			}
+			sbd.append("]");
+			data.setSizes(sbd.toString());
+		}
+		return data;
+	}
 }
