@@ -79,9 +79,12 @@ public class DiskParser {
 		case "mirraw":
 			data = FilterUtils.urlFilterForMirraw(doc, url) ? ParseUtils.getParseDataModelForMirraw(doc, url) : null;
 			break;
+<<<<<<< HEAD
 		case "stalkbuylove":
 			data = FilterUtils.urlFilterForStalkBuyLove(doc, url) ? ParseUtils.getParseDataModelForStalkBuyLove(doc, url) : null;
 			break;
+=======
+>>>>>>> f438a004a76b7a53caefb41877603775d58a3e00
 		default:
 			break;
 		}*/
