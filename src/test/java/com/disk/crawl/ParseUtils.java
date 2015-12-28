@@ -5,7 +5,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class ParseUtils {
-	public static ParseDataModel getParsedDataModelForJabong(Document doc,String url) {
+	public static ParseDataModel getParsedDataModelForJabong(Document doc, String url) {
 		Elements elements;
 		StringBuilder sbd = new StringBuilder();
 		ParseDataModel data = new ParseDataModel();
@@ -115,7 +115,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForKoovs(Document doc,String url) {
+	public static ParseDataModel getParseDataModelForKoovs(Document doc, String url) {
 		Elements elements;
 		StringBuilder sbd = new StringBuilder();
 		ParseDataModel data = new ParseDataModel();
@@ -195,7 +195,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParsedDataModelForFaballey(Document doc,String url) {
+	public static ParseDataModel getParsedDataModelForFaballey(Document doc, String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -243,7 +243,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelFor6ycollective(Document doc,String url) {
+	public static ParseDataModel getParseDataModelFor6ycollective(Document doc, String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -282,7 +282,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForFleaffair(Document doc,String url) {
+	public static ParseDataModel getParseDataModelForFleaffair(Document doc, String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -354,7 +354,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForThelabellife(Document doc,String url) {
+	public static ParseDataModel getParseDataModelForThelabellife(Document doc, String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -407,7 +407,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForVajor(Document doc,String url) {
+	public static ParseDataModel getParseDataModelForVajor(Document doc, String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -457,7 +457,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForJaypore(Document doc,String url) {
+	public static ParseDataModel getParseDataModelForJaypore(Document doc, String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -503,7 +503,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelFor20dresses(Document doc,String url) {
+	public static ParseDataModel getParseDataModelFor20dresses(Document doc, String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -554,7 +554,7 @@ public class ParseUtils {
 		return data;
 	}
 
-	public static ParseDataModel getParseDataModelForCraftisan(Document doc,String url) {
+	public static ParseDataModel getParseDataModelForCraftisan(Document doc, String url) {
 		Elements elements;
 		StringBuilder sbd;
 		ParseDataModel data = new ParseDataModel();
@@ -628,7 +628,8 @@ public class ParseUtils {
 		}
 		return data;
 	}
-	public static ParseDataModel getParseDataModelForSesamethestylestudio(Document doc,String url){
+
+	public static ParseDataModel getParseDataModelForSesamethestylestudio(Document doc, String url) {
 		ParseDataModel data = new ParseDataModel();
 		Elements elements;
 		StringBuilder sbd;
@@ -655,51 +656,51 @@ public class ParseUtils {
 				data.setSp(key.replaceAll("[^\\d.]", ""));
 			}
 			if (!key.isEmpty() && key.toLowerCase().contains("product code")) {
-				data.setSku(key.substring(key.indexOf(":")+1).replaceAll("\\s+", ""));
+				data.setSku(key.substring(key.indexOf(":") + 1).replaceAll("\\s+", ""));
 			}
 		}
 		elements = doc.select("#tab-description p");
-		for(Element ele:elements){
-			String key=ele.text();
-			if(!key.isEmpty() && key.toLowerCase().contains("material")){
-				data.setMaterial(key.substring(key.indexOf(":")+1));
+		for (Element ele : elements) {
+			String key = ele.text();
+			if (!key.isEmpty() && key.toLowerCase().contains("material")) {
+				data.setMaterial(key.substring(key.indexOf(":") + 1));
 			}
 		}
-		elements=doc.select("#product label");
-		for(Element ele:elements){
-			String key=ele.text();
-			if(!key.isEmpty() && key.toLowerCase().contains("size")){
-				Element ele1=ele.nextElementSibling();
-				Elements eles=ele1.select("option");
-				if(!eles.isEmpty()){
-					sbd= new StringBuilder("[");
-					comma="";
-					for(Element e:eles){
-						if(e.text().toLowerCase().contains("select"))
+		elements = doc.select("#product label");
+		for (Element ele : elements) {
+			String key = ele.text();
+			if (!key.isEmpty() && key.toLowerCase().contains("size")) {
+				Element ele1 = ele.nextElementSibling();
+				Elements eles = ele1.select("option");
+				if (!eles.isEmpty()) {
+					sbd = new StringBuilder("[");
+					comma = "";
+					for (Element e : eles) {
+						if (e.text().toLowerCase().contains("select"))
 							continue;
 						sbd.append(comma);
 						sbd.append(e.text());
-						if(comma.equals("")){
-							comma=",";
+						if (comma.equals("")) {
+							comma = ",";
 						}
 					}
 					sbd.append("]");
 					data.setSizes(sbd.toString());
 				}
 			}
-			if(!key.isEmpty() && key.toLowerCase().contains("color")){
-				Element ele1=ele.nextElementSibling();
-				Elements eles=ele1.select("option");
-				if(!eles.isEmpty()){
-					sbd= new StringBuilder("[");
-					comma="";
-					for(Element e:eles){
-						if(e.text().toLowerCase().contains("select"))
+			if (!key.isEmpty() && key.toLowerCase().contains("color")) {
+				Element ele1 = ele.nextElementSibling();
+				Elements eles = ele1.select("option");
+				if (!eles.isEmpty()) {
+					sbd = new StringBuilder("[");
+					comma = "";
+					for (Element e : eles) {
+						if (e.text().toLowerCase().contains("select"))
 							continue;
 						sbd.append(comma);
 						sbd.append(e.text());
-						if(comma.equals("")){
-							comma=",";
+						if (comma.equals("")) {
+							comma = ",";
 						}
 					}
 					sbd.append("]");
@@ -708,5 +709,209 @@ public class ParseUtils {
 			}
 		}
 		return data;
+	}
+
+	public static ParseDataModel getParseDataModelForMirraw(Document doc, String url) {
+		ParseDataModel data = new ParseDataModel();
+		data.setProductName(doc.select(".heading .design_title").text());
+		data.setMrp(doc.select(".discount_old_price .old_price_label").text().replaceAll("[^\\d.]", ""));
+		data.setSp(doc.select(".discount_old_price h3.floatl").text().replaceAll("[^\\d.]", ""));
+		Elements elements = doc.select("#spec-1 ul.product_specif_detail li");
+		for (Element element : elements) {
+			String key = element.select("label").text();
+			String val = element.select("span").text();
+			switch (key) {
+			case "Product ID":
+				data.setSku(val);
+				break;
+			case "Type":
+				data.setSubCategory(val);
+				break;
+			case "Fabric of saree :":
+			case "Blouse fabric :":
+			case "Lehenga fabric :":
+			case "Fabric :":
+			case "Kameez fabric :":
+			case "Base material :":
+			case "Material bag :":
+				data.setMaterial(val);
+				break;
+			case "Returns":
+				data.setReturnPolicy(val);
+				break;
+			case "Shipping":
+				data.setDelivery(val);
+				break;
+			case "Saree color :":
+			case "color :":
+			case "Kameez color :":
+			case "Lehenga color :":
+			case "Dupatta color :":
+			case "Blouse color :":
+			case "Bottom color :":
+				data.setColorText(val);
+				break;
+			case "Look :":
+			case "Work :":
+			case "Stitching :":
+			case "Lehenga style :":
+			case "Pattern :":
+				val = !data.getPatternOrDetailing().isEmpty() ? val + ", " + data.getPatternOrDetailing() : val;
+				data.setPatternOrDetailing(val);
+				break;
+			case "care":
+				data.setCareInstruction(val);
+			default:
+				break;
+			}
+		}
+
+		elements = doc.select("#fancybox-thumbs li img");
+		if (!elements.isEmpty()) {
+			StringBuilder sbd = new StringBuilder("[");
+			String pref = "";
+			for (Element element : elements) {
+				sbd.append(pref);
+				pref = ",";
+				sbd.append(element.attr("src"));
+			}
+			sbd.append("]");
+			data.setImgUrls(sbd.toString());
+		} else {
+			data.setImgUrls("[" + doc.select(".large_img.floatl img").attr("src") + "]");
+		}
+		elements = doc.select(".right_description_wrapper li");
+		if (!elements.isEmpty()) {
+			StringBuilder sbd = new StringBuilder("[");
+			String pref = "";
+			for (Element element : elements) {
+				if (element.select("del").isEmpty()) {
+					sbd.append(pref);
+					pref = ",";
+					sbd.append(element.text());
+				}
+			}
+			sbd.append("]");
+			data.setSizes(sbd.toString());
+		}
+		return data;
+	}
+
+	public static ParseDataModel getParseDataModelForStalkBuyLove(Document doc, String url) {
+		ParseDataModel data = new ParseDataModel();
+		data.setProductName(doc.select(".name-write-box h1").text());
+		data.setBreadCrumb(doc.select(".breadcrumbs ul").text());
+		if (!doc.select(".name-price-box .old-price").isEmpty()) {
+			data.setMrp(doc.select(".name-price-box .striken-price").text().replaceAll("[^\\d.]", ""));
+			data.setSp(doc.select(".name-price-box .special_new_price").text().replaceAll("[^\\d.]", ""));
+		} else {
+			data.setMrp(doc.select(".name-price-box .regular-price .price").text().replaceAll("[^\\d.]", ""));
+			data.setSp(doc.select(".name-price-box .regular-price .price").text().replaceAll("[^\\d.]", ""));
+		}
+		Elements elements = doc.select("#prodSizeSelect option");
+		if (!elements.isEmpty()) {
+			elements.remove(0);
+			if (!elements.isEmpty()) {
+				StringBuilder sbd = new StringBuilder("[");
+				String pref = "";
+				for (Element element : elements) {
+					sbd.append(pref);
+					pref = ",";
+					sbd.append(element.text());
+				}
+				sbd.append("]");
+				data.setSizes(sbd.toString());
+			}
+		}
+
+		elements = doc.select("#prodColorSelect option");
+		if (!elements.isEmpty()) {
+			StringBuilder sbd = new StringBuilder("[");
+			String pref = "";
+			for (Element element : elements) {
+				sbd.append(pref);
+				pref = ",";
+				sbd.append(element.text());
+			}
+			sbd.append("]");
+			data.setColorText(sbd.toString());
+		}
+		data.setReturnPolicy(doc.select(".cro_extra_info").text().trim());
+		String skuid = doc.select("#cro_prod_test_det_content p").eq(0).text();
+		String sku = doc.select("#cro_prod_test_det_content p span").eq(0).text();
+		if (!skuid.isEmpty() && !sku.isEmpty()) {
+			skuid = skuid.replaceAll(sku, "").trim();
+			data.setSku(skuid);
+		}
+		data.setDetail(doc.select(".info_block_content .bulleted_desc").text());
+		return data;
+	}
+
+	public static ParseDataModel getParseDataModelForCbazaar(Document doc, String url) {
+		ParseDataModel data = new ParseDataModel();
+		data.setProductName(doc.select(".prodDetails h1 span").text());
+		data.setBreadCrumb(doc.select(".breadCrum ul").text());
+		data.setPatternOrDetailing(doc.select(".prodDetails .showMorewrpper .visibleText p").text());
+		String price = doc.select("#h5Amount").text().replaceAll("[^\\d.]", "");
+		price = moneyFormat(price);
+		data.setMrp(price);
+		data.setSp(price);
+		data.setDelivery(doc.select(".wishlistBox .dispatchdate").text());
+		Elements elements = doc.select(".wishlistBox ul.prodInfo li.details li");
+		for (Element element : elements) {
+			String key = element.select("span").text().trim();
+			String val = element.select("strong").text().trim();
+			switch (key) {
+			case "Fabric":
+				data.setMaterial(val);
+				break;
+			case "Color":
+				data.setColorText(val);
+				break;
+			case "Designer":
+				data.setBrand(val);
+				break;
+			default:
+				break;
+			}
+		}
+		data.setCareInstruction(doc.select("#MoreonPrds #accordion13 p").eq(1).text());
+		elements = doc.select(".smallThumbnailWrapper .samllThumbnail img");
+		if (!elements.isEmpty()) {
+			StringBuilder sbd = new StringBuilder("[");
+			String pref = "";
+			for (Element element : elements) {
+				sbd.append(pref);
+				pref = ",";
+				sbd.append(element.attr("largeimage"));
+			}
+			sbd.append("]");
+			data.setImgUrls(sbd.toString());
+		}else{
+			data.setImgUrls(doc.select("#imgPrdTopLeft").attr("largeimage"));
+		}
+		elements = doc.select("#MoreonPrds .panel-group .panel-body");
+		for(Element element : elements){
+			if(element.select("p").eq(0).text().equalsIgnoreCase("Wash Care 3")){
+				data.setCareInstruction(element.select("p").eq(1).text());
+			}
+		}
+		return data;
+	}
+	
+	public static String moneyFormat(String amount){
+		boolean flag=true;
+		if(amount.charAt(0) == '.'){
+			flag = false;
+			amount = amount.substring(1);
+		}
+		if(amount.charAt(amount.length() - 1) == '.'){
+			flag = false;
+			amount = amount.substring(0,amount.length()-2);
+		}
+		if(flag){
+			return amount;
+		}
+		return moneyFormat(amount);
 	}
 }

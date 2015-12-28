@@ -1,10 +1,10 @@
 package com.disk.crawl;
 
 public enum Config {
-	SEED("http://www.vajor.com/"),
-	SITE("vajor"),
-	URL_PREFIX("http://www.vajor.com/");
-	FOLDER("/home/rohit/vajor");
+	SEED("http://www.cbazaar.com/"),
+	SITE("cbazaar"),
+	URL_PREFIX("http://www.cbazaar.com/"),
+	FOLDER("/home/salonasinha/cbazaar");
 	private String val;
 
 	private Config(String s) {

@@ -27,7 +27,6 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
  * @author Yasser Ganjisaffar
  */
 public class BasicCrawlController {
-
 	public static void main(String[] args) throws Exception {
 		/*
 		 * if (args.length != 2) { logger.info("Needed parameters: ");
@@ -40,7 +39,11 @@ public class BasicCrawlController {
 		 * crawlStorageFolder is a folder where intermediate crawl data is
 		 * stored.
 		 */
-		String crawlStorageFolder = "~/"+Config.SITE.val();
+		ConfigNew.setConfType(args[0]);
+		Conf s = Conf.valueOf(ConfigNew.getConfType());
+		String seed = s.getValues().getSeed();
+		String crawlStorageFolder = s.getValues().getFolder();
+		//String crawlStorageFolder = "~/"+Config.SITE.val();
 
 		/*
 		 * numberOfCrawlers shows the number of concurrent threads that should
@@ -111,7 +114,7 @@ public class BasicCrawlController {
 		 * which are found in these pages
 		 */
 		
-		controller.addSeed(Config.SEED.val());
+		controller.addSeed(seed);
 
 		/*
 		 * Start the crawl. This is a blocking operation, meaning that your code

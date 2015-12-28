@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Properties;
 
 import com.mysql.jdbc.Connection;
@@ -33,15 +34,14 @@ public class InsertScrapeData {
 	}
 
 	private static void insertRecordIntoTable(ParseDataModel data) throws SQLException {
-
 		java.sql.Connection dbConnection = null;
 		java.sql.PreparedStatement preparedStatement = null;
 		StringBuilder sbd = new StringBuilder();
 		sbd.append(
-				"INSERT INTO scrape_data3(id,product_name, product_url, sku, mrp, sp, description, detail, sizes, material, care_instruction, img_urls, retailer, brand, color_text, color_code, bread_crumb, category, sub_category, fabric, pattern_or_detailing, delivery, return_policy, page_hash) VALUES");
-		sbd.append("(md5(?),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,md5(?))");
+				"INSERT INTO scrape_data3(id,product_name, product_url, sku, mrp, sp, description, detail, sizes, material, care_instruction, img_urls, retailer, brand, color_text, color_code, bread_crumb, category, sub_category, fabric, pattern_or_detailing, delivery, return_policy, page_hash,lastUpdated) VALUES");
+		sbd.append("(md5(?),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,md5(?),?)");
 		sbd.append("ON DUPLICATE KEY UPDATE ");
-		sbd.append("product_name=VALUES(product_name), product_url=VALUES(product_url), sku=VALUES(sku), mrp=VALUES(mrp), sp=VALUES(sp), description=VALUES(description), detail=VALUES(detail), sizes=VALUES(sizes), material=VALUES(material), care_instruction=VALUES(care_instruction), img_urls=VALUES(img_urls), retailer=VALUES(retailer), brand=VALUES(brand), color_text=VALUES(color_text), color_code=VALUES(color_code), bread_crumb=VALUES(bread_crumb), category=VALUES(category), sub_category=VALUES(sub_category), fabric=VALUES(fabric), pattern_or_detailing=VALUES(pattern_or_detailing), delivery=VALUES(delivery), return_policy=VALUES(return_policy)");
+		sbd.append("product_name=VALUES(product_name), product_url=VALUES(product_url), sku=VALUES(sku), mrp=VALUES(mrp), sp=VALUES(sp), description=VALUES(description), detail=VALUES(detail), sizes=VALUES(sizes), material=VALUES(material), care_instruction=VALUES(care_instruction), img_urls=VALUES(img_urls), retailer=VALUES(retailer), brand=VALUES(brand), color_text=VALUES(color_text), color_code=VALUES(color_code), bread_crumb=VALUES(bread_crumb), category=VALUES(category), sub_category=VALUES(sub_category), fabric=VALUES(fabric), pattern_or_detailing=VALUES(pattern_or_detailing), delivery=VALUES(delivery), return_policy=VALUES(return_policy),lastUpdated=VALUES(lastUpdated)");
 		String insertTableSQL = sbd.toString();
 
 		try {
@@ -71,6 +71,7 @@ public class InsertScrapeData {
 			preparedStatement.setString(22, data.getDelivery());
 			preparedStatement.setString(23, data.getReturnPolicy());
 			preparedStatement.setString(24, data.getProductName());
+			preparedStatement.setLong(25,(new Date()).getTime());
 
 			// execute insert SQL stetement
 			preparedStatement.executeUpdate();
@@ -79,8 +80,7 @@ public class InsertScrapeData {
 			// System.out.println(data.toString());
 			System.out.println();
 			System.out.println("Inserted");
-
-		} catch (SQLException e) {
+				} catch (SQLException e) {
 
 			System.out.println(e.getMessage());
 

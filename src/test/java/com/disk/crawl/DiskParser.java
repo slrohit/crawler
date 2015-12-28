@@ -1,6 +1,11 @@
 package com.disk.crawl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.jsoup.nodes.Document;
+
+import ucar.unidata.util.StringUtil;
 
 public class DiskParser {
 	private static int cnt = 0;
@@ -8,7 +13,29 @@ public class DiskParser {
 	public static void parse(Document doc, String url) {
 
 		ParseDataModel data = null;
-		switch (Config.SITE.val()) {
+		Conf conf = Conf.valueOf(ConfigNew.getConfType()); 
+		String filterMethodName = "urlFilterFor"+StringUtil.camelCase(conf.getValues().getSite());
+		String parseMethodName = "getParseDataModelFor"+StringUtil.camelCase(conf.getValues().getSite());
+		try {
+			Method m = FilterUtils.class.getDeclaredMethod(filterMethodName, Document.class, String.class);
+			data =  (ParseDataModel) ((boolean) m.invoke(null, doc, url) ? ParseUtils.class.getMethod(parseMethodName, Document.class, String.class).invoke(null, doc, url) : null);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	/*	switch (s.getValues().getSite()) {
 		case "koovs":
 			data = FilterUtils.urlFilterForKoovs(doc, url) ? ParseUtils.getParseDataModelForKoovs(doc, url) : null;
 			break;
@@ -49,9 +76,15 @@ public class DiskParser {
 		case "jaypore":
 			data = FilterUtils.urlFilterForJaypore(doc, url) ? ParseUtils.getParseDataModelForJaypore(doc, url) : null;
 			break;
+		case "mirraw":
+			data = FilterUtils.urlFilterForMirraw(doc, url) ? ParseUtils.getParseDataModelForMirraw(doc, url) : null;
+			break;
+		case "stalkbuylove":
+			data = FilterUtils.urlFilterForStalkBuyLove(doc, url) ? ParseUtils.getParseDataModelForStalkBuyLove(doc, url) : null;
+			break;
 		default:
 			break;
-		}
+		}*/
 		if (data != null) {
 			data.setProductUrl(url);
 			data.setRelativeUrl(url.substring(url.lastIndexOf("/") + 1));

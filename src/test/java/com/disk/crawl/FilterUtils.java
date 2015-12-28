@@ -126,15 +126,37 @@ public class FilterUtils {
 			return false;
 		return true;
 	}
+
 	public static boolean urlFilterForCraftisan(Document doc, String url) {
 		if (doc.select("#product").isEmpty())
 			return false;
 		return true;
 	}
+
 	public static boolean urlFilterForSesamethestylestudio(Document doc, String url) {
 		if (doc.select("#product").isEmpty() || doc.select("#content").isEmpty())
 			return false;
 		return true;
 	}
+
+	public static boolean urlFilterForMirraw(Document doc, String url) {
+		if (doc.select(".right_description_wrapper").isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean urlFilterForStalkBuyLove(Document doc, String url) {
+		if (doc.select("#cro_prod_test_det_content").isEmpty()) {
+			return false;
+		}
+		return true;
+	}
 	
+	public static boolean urlFilterForCbazaar(Document doc, String url){
+		if(doc.select("#MoreonPrds").isEmpty()){
+			return false;
+		}
+		return true;
+	}
 }
