@@ -8,7 +8,7 @@ import org.jsoup.nodes.Document;
 public class Test {
 	public static void main(String[] args) throws IOException {
 		ConfigNew.setConfType(args[0]);
-		String url = "http://www.cbazaar.com/party-wear-saree/fancy-party-wear/ornate-paisley-motifs-adorned-multicolor-saree-p-samv1622.html";
+		String url = "http://www.cbazaar.com/neck-piece/necklace-set-with-maang-tika/golden-n-off-white-motis-n-stones-necklace-set-p-jymhrsrdmyns32g.html";
 		parseTestUrl(url);
 	}
 

@@ -1,5 +1,6 @@
 package com.disk.crawl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -852,12 +853,16 @@ public class ParseUtils {
 		data.setSku(doc.select("#ContentPlaceHolder1_dvPrdCode #spnPrdCode").text());
 		data.setProductName(doc.select(".prodDetails h1 span").text());
 		data.setBreadCrumb(doc.select(".breadCrum ul").text());
-		data.setPatternOrDetailing(doc.select(".prodDetails .showMorewrpper .visibleText p").text());
-		data.setSubCategory(doc.select(".sizesInfowrapper .sareeTypes li a").text());
-		String price = doc.select("#h5Amount").text().replaceAll("[^\\d.]", "");
-		price = moneyFormat(price);
-		data.setMrp(price);
-		data.setSp(price);
+		data.setPatternOrDetailing(StringUtils.abbreviate(doc.select(".prodDetails .showMorewrpper .visibleText p").text(),90));
+		data.setSubCategory(doc.select(".sizesInfowrapper .sareeTypes li a").text().replaceAll("[^\\d.]", ""));
+		String price = doc.select("#h5Amount").text();
+		if (price.isEmpty()) {
+			data.setMrp(moneyFormat(doc.select(".sizesInfowrapper .totalCost .oldprice").text().replaceAll("[^\\d.]", "")));
+			data.setSp(moneyFormat(doc.select(".sizesInfowrapper .totalCost .newprice").text().replaceAll("[^\\d.]", "")));
+		}else{
+			data.setSp(moneyFormat(price));
+			data.setMrp(moneyFormat(price));
+		}
 		data.setDelivery(doc.select(".wishlistBox .dispatchdate").text());
 		Elements elements = doc.select(".wishlistBox ul.prodInfo li.details li");
 		for (Element element : elements) {
@@ -893,12 +898,12 @@ public class ParseUtils {
 		}
 		elements = doc.select("#MoreonPrds .panel-group");
 		for (Element element : elements) {
-			switch (element.select("p").eq(0).text()) {
+			switch (element.select("h4").text()) {
 			case "Wash Care 3":
-				data.setCareInstruction(element.select("p").eq(1).text());
+				data.setCareInstruction(element.select("p").text());
 				break;
 			case "Return Policy":
-				data.setReturnPolicy(element.select("p").eq(1).text());
+				data.setReturnPolicy(element.select("p").text());
 			default:
 				break;
 			}
