@@ -5,14 +5,21 @@ public enum Conf {
 		@Override
 		public ConfigNew getValues() {
 			return new ConfigNew("http://www.mirraw.com/", "mirraw", "http://www.mirraw.com/",
-					"/Users/salonasinha/mirraw");
+					"mirraw");
 		}
 	},
 	CBAZAAR {
 		@Override
 		public ConfigNew getValues() {
 			return new ConfigNew("http://www.cbazaar.com/", "cbazaar", "http://www.cbazaar.com/",
-					"/Users/salonasinha/cbazaar");
+					"cbazaar");
+		}
+	},
+	
+	STALKBUYLOVE {
+		@Override
+		public ConfigNew getValues() {
+			return new ConfigNew("http://www.stalkbuylove.com/","stalkbuylove","http://www.stalkbuylove.com/","stalkbuylove");
 		}
 	};
 

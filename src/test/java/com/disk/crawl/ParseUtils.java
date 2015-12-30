@@ -849,9 +849,11 @@ public class ParseUtils {
 
 	public static ParseDataModel getParseDataModelForCbazaar(Document doc, String url) {
 		ParseDataModel data = new ParseDataModel();
+		data.setSku(doc.select("#ContentPlaceHolder1_dvPrdCode #spnPrdCode").text());
 		data.setProductName(doc.select(".prodDetails h1 span").text());
 		data.setBreadCrumb(doc.select(".breadCrum ul").text());
 		data.setPatternOrDetailing(doc.select(".prodDetails .showMorewrpper .visibleText p").text());
+		data.setSubCategory(doc.select(".sizesInfowrapper .sareeTypes li a").text());
 		String price = doc.select("#h5Amount").text().replaceAll("[^\\d.]", "");
 		price = moneyFormat(price);
 		data.setMrp(price);
@@ -875,7 +877,6 @@ public class ParseUtils {
 				break;
 			}
 		}
-		data.setCareInstruction(doc.select("#MoreonPrds #accordion13 p").eq(1).text());
 		elements = doc.select(".smallThumbnailWrapper .samllThumbnail img");
 		if (!elements.isEmpty()) {
 			StringBuilder sbd = new StringBuilder("[");
@@ -887,29 +888,38 @@ public class ParseUtils {
 			}
 			sbd.append("]");
 			data.setImgUrls(sbd.toString());
-		}else{
+		} else {
 			data.setImgUrls(doc.select("#imgPrdTopLeft").attr("largeimage"));
 		}
-		elements = doc.select("#MoreonPrds .panel-group .panel-body");
-		for(Element element : elements){
-			if(element.select("p").eq(0).text().equalsIgnoreCase("Wash Care 3")){
+		elements = doc.select("#MoreonPrds .panel-group");
+		for (Element element : elements) {
+			switch (element.select("p").eq(0).text()) {
+			case "Wash Care 3":
 				data.setCareInstruction(element.select("p").eq(1).text());
+				break;
+			case "Return Policy":
+				data.setReturnPolicy(element.select("p").eq(1).text());
+			default:
+				break;
 			}
 		}
 		return data;
 	}
-	
-	public static String moneyFormat(String amount){
-		boolean flag=true;
-		if(amount.charAt(0) == '.'){
+
+	public static String moneyFormat(String amount) {
+		boolean flag = true;
+		if (amount.isEmpty()) {
+			return null;
+		}
+		if (amount.charAt(0) == '.') {
 			flag = false;
 			amount = amount.substring(1);
 		}
-		if(amount.charAt(amount.length() - 1) == '.'){
+		if (amount.charAt(amount.length() - 1) == '.') {
 			flag = false;
-			amount = amount.substring(0,amount.length()-2);
+			amount = amount.substring(0, amount.length() - 2);
 		}
-		if(flag){
+		if (flag) {
 			return amount;
 		}
 		return moneyFormat(amount);

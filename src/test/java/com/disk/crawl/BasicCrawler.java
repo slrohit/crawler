@@ -49,7 +49,7 @@ public class BasicCrawler extends WebCrawler {
 		}
 		// Only accept the url if it is in the "www.ics.uci.edu" domain and
 		// protocol is "http".
-		Conf s = Conf.valueOf(BasicCrawlController.urlInstance); 
+		Conf s = Conf.valueOf(ConfigNew.getConfType()); 
 		return href.startsWith(s.getValues().getUrlPrefix());
 	}
 

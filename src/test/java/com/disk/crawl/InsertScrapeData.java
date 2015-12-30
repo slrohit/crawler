@@ -1,15 +1,7 @@
 package com.disk.crawl;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Properties;
-
-import com.mysql.jdbc.Connection;
 
 public class InsertScrapeData {
 	/*
@@ -43,35 +35,35 @@ public class InsertScrapeData {
 		sbd.append("ON DUPLICATE KEY UPDATE ");
 		sbd.append("product_name=VALUES(product_name), product_url=VALUES(product_url), sku=VALUES(sku), mrp=VALUES(mrp), sp=VALUES(sp), description=VALUES(description), detail=VALUES(detail), sizes=VALUES(sizes), material=VALUES(material), care_instruction=VALUES(care_instruction), img_urls=VALUES(img_urls), retailer=VALUES(retailer), brand=VALUES(brand), color_text=VALUES(color_text), color_code=VALUES(color_code), bread_crumb=VALUES(bread_crumb), category=VALUES(category), sub_category=VALUES(sub_category), fabric=VALUES(fabric), pattern_or_detailing=VALUES(pattern_or_detailing), delivery=VALUES(delivery), return_policy=VALUES(return_policy),lastUpdated=VALUES(lastUpdated)");
 		String insertTableSQL = sbd.toString();
-
+		int i = 1;
 		try {
-			dbConnection = getDBConnection();
+			dbConnection = DbConnection.getDBConnection();
 			preparedStatement = dbConnection.prepareStatement(insertTableSQL);
-			preparedStatement.setString(1,data.getRelativeUrl());
-			preparedStatement.setString(2, data.getProductName());
-			preparedStatement.setString(3, data.getProductUrl());
-			preparedStatement.setString(4, data.getSku());
-			preparedStatement.setString(5, data.getMrp());
-			preparedStatement.setString(6, data.getSp());
-			preparedStatement.setString(7, data.getDescription());
-			preparedStatement.setString(8, data.getDetail());
-			preparedStatement.setString(9, data.getSizes());
-			preparedStatement.setString(10, data.getMaterial());
-			preparedStatement.setString(11, data.getCareInstruction());
-			preparedStatement.setString(12, data.getImgUrls());
-			preparedStatement.setString(13, data.getRetailer());
-			preparedStatement.setString(14, data.getBrand());
-			preparedStatement.setString(15, data.getColorText());
-			preparedStatement.setString(16, data.getColorCode());
-			preparedStatement.setString(17, data.getBreadCrumb());
-			preparedStatement.setString(18, data.getCategory());
-			preparedStatement.setString(19, data.getSubCategory());
-			preparedStatement.setString(20, data.getFabric());
-			preparedStatement.setString(21, data.getPatternOrDetailing());
-			preparedStatement.setString(22, data.getDelivery());
-			preparedStatement.setString(23, data.getReturnPolicy());
-			preparedStatement.setString(24, data.getProductName());
-			preparedStatement.setLong(25,(new Date()).getTime());
+			preparedStatement.setString(i++,data.getRelativeUrl());
+			preparedStatement.setString(i++, data.getProductName());
+			preparedStatement.setString(i++, data.getProductUrl());
+			preparedStatement.setString(i++, data.getSku());
+			preparedStatement.setString(i++, data.getMrp());
+			preparedStatement.setString(i++, data.getSp());
+			preparedStatement.setString(i++, data.getDescription());
+			preparedStatement.setString(i++, data.getDetail());
+			preparedStatement.setString(i++, data.getSizes());
+			preparedStatement.setString(i++, data.getMaterial());
+			preparedStatement.setString(i++, data.getCareInstruction());
+			preparedStatement.setString(i++, data.getImgUrls());
+			preparedStatement.setString(i++, data.getRetailer());
+			preparedStatement.setString(i++, data.getBrand());
+			preparedStatement.setString(i++, data.getColorText());
+			preparedStatement.setString(i++, data.getColorCode());
+			preparedStatement.setString(i++, data.getBreadCrumb());
+			preparedStatement.setString(i++, data.getCategory());
+			preparedStatement.setString(i++, data.getSubCategory());
+			preparedStatement.setString(i++, data.getFabric());
+			preparedStatement.setString(i++, data.getPatternOrDetailing());
+			preparedStatement.setString(i++, data.getDelivery());
+			preparedStatement.setString(i++, data.getReturnPolicy());
+			preparedStatement.setString(i++, data.getProductName());
+			preparedStatement.setLong(i++,(new Date()).getTime());
 
 			// execute insert SQL stetement
 			preparedStatement.executeUpdate();
@@ -95,50 +87,6 @@ public class InsertScrapeData {
 			}
 
 		}
-
-	}
-
-	private static java.sql.Connection getDBConnection() {
-
-		java.sql.Connection dbConnection = null;
-
-		Properties prop = new Properties();
-		InputStream input = null;
-		try {
-			input = new FileInputStream("config.properties");
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			prop.load(input);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-
-			Class.forName(prop.getProperty("dbdriver"));
-
-		} catch (ClassNotFoundException e) {
-
-			System.out.println(e.getMessage());
-
-		}
-
-		try {
-
-			dbConnection = DriverManager.getConnection(prop.getProperty("database"), prop.getProperty("dbuser"),
-					prop.getProperty("dbpassword"));
-			return (Connection) dbConnection;
-
-		} catch (SQLException e) {
-
-			System.out.println(e.getMessage());
-
-		}
-
-		return dbConnection;
 
 	}
 }
